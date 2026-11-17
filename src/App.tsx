@@ -1,8 +1,14 @@
-// src/App.jsx (temporary test)
+import { lazy, Suspense } from "react";
+import { Route, Routes } from 'react-router-dom';
+
+const RegisterPage = lazy(() => import('./pages/RegisterPage'));
+
 export default function App() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-100">
-            <h1 className="text-3xl font-bold text-teal-400">Mini CRM — Tailwind works ✅</h1>
-        </div>
-    );
+        <Suspense fallback={<div className="min-h-screen bg-slate-100" />}>
+            <Routes>
+                <Route path="/register" element={<RegisterPage />} />
+            </Routes>
+        </Suspense>
+    )
 }
