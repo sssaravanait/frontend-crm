@@ -10,7 +10,7 @@ import { registerUser } from '../services/auth.service';
 
 export default function RegisterPage() {
 
-    const form = Form.useForm();
+    const [form] = Form.useForm<RegisterFormData>();
     const navigate = useNavigate();
     const [ submitting, setSubmitting ] = useState(false);
 
@@ -25,7 +25,7 @@ export default function RegisterPage() {
 
         if (status === 409) {
             // Duplicate email
-            form.setFields([{ name: "email", errors: [data?.message ?? "Email is already registered"] }]);
+            form.setFields([{ name: "email", errors: [data?.error?.message ?? "Email is already registered"] }]);
             return;
         }
 
@@ -34,14 +34,16 @@ export default function RegisterPage() {
             form.setFields(
                 Object.entries(data.errors).map(([field, errors]) => ({
                     name: field as keyof RegisterFormData,
-                    errors,
+                    errors: Array.isArray(errors)
+                        ? errors.filter((error): error is string => typeof error === "string")
+                        : [],
                 })),
             );
             return;
         }
 
         // Network errors (no response), 5xx, and anything else
-        message.error(data?.message ?? (error.response ? "Registration failed" : "Network error. Check your connection."));
+        message.error(data?.error?.message ?? data?.message ?? (error.response ? "Registration failed" : "Network error. Check your connection."));
     };
 
     const onFinish = async (values: RegisterFormData) => {
@@ -56,8 +58,14 @@ export default function RegisterPage() {
         setSubmitting(true);
         
         try {
-            await registerUser(payload);
+            const response = await registerUser(payload);
+            if (!response.success) {
+                message.error(response.error?.message ?? "Registration failed");
+                return;
+            }
+
             form.resetFields();
+            message.success("Registration successful. Please log in.");
             navigate('/login');
         } catch (error) {
             handleServerError(error);
@@ -87,6 +95,7 @@ export default function RegisterPage() {
                     <h2 className="mb-6 text-2xl font-semibold text-gray-800 text-center">Create an account</h2>
 
                     <Form<RegisterFormData>
+                        form={form}
                         layout="vertical"
                         name="signupForm"
                         size="large"

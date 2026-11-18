@@ -5,10 +5,19 @@ export interface RegisterFormData {
 }
 
 export interface RegisterResponse {
-    message: string;
-    user?: {
-        id: string;
-        name: string;
-        email: string;
+    success: boolean;
+    data?: {
+        user?: {
+            id: string;
+            name: string;
+            email: string;
+            role: string;
+            createdAt: string;
+            updatedAt: string;
+        }
+    };
+    error?: {
+        code: string;
+        message: string;
     }
 }
