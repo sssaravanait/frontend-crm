@@ -47,8 +47,6 @@ export default function RegisterPage() {
     };
 
     const onFinish = async (values: RegisterFormData) => {
-        console.log(values);
-
         const payload: RegisterFormData = {
             name: values.name.trim(),
             email: values.email.trim().toLowerCase(),

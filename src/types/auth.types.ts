@@ -1,3 +1,5 @@
+import type { UserRead } from './user.types';
+
 export interface RegisterFormData {
     name: string;
     email: string;
@@ -6,16 +8,21 @@ export interface RegisterFormData {
 
 export interface RegisterResponse {
     success: boolean;
-    data?: {
-        user?: {
-            id: string;
-            name: string;
-            email: string;
-            role: string;
-            createdAt: string;
-            updatedAt: string;
-        }
-    };
+    data?: UserRead;
+    error?: {
+        code: string;
+        message: string;
+    }
+}
+
+export interface LoginFormData {
+    email: string;
+    password: string;
+}
+
+export interface LoginResponse {
+    success: boolean;
+    data?: UserRead;
     error?: {
         code: string;
         message: string;
