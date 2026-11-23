@@ -1,4 +1,4 @@
-import type { UserRead } from './user.types';
+import type { AuthUser } from './user.types';
 
 export interface RegisterFormData {
     name: string;
@@ -8,7 +8,7 @@ export interface RegisterFormData {
 
 export interface RegisterResponse {
     success: boolean;
-    data?: UserRead;
+    data?: AuthUser;
     error?: {
         code: string;
         message: string;
@@ -22,7 +22,7 @@ export interface LoginFormData {
 
 export interface LoginResponse {
     success: boolean;
-    data?: UserRead;
+    data?: AuthUser;
     error?: {
         code: string;
         message: string;
