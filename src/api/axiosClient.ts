@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getToken, clearToken } from '../utils/tokenStorage';
+import { authStorage } from "../utils/authStorage";
 
 export const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4000/api",
@@ -10,8 +10,9 @@ export const apiClient = axios.create({
 
 // Attach the JWT to every request
 apiClient.interceptors.request.use((config) => {
-    if (getToken()) {
-        config.headers.Authorization = `Bearer ${getToken()}`;
+    const token = authStorage.load()?.token;
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
 });
@@ -23,7 +24,7 @@ apiClient.interceptors.response.use(
         const isLoginRequest = error.config?.url?.endsWith("/auth/login");
         // Skip the redirect for login itself, so wrong passwords show a form error
         if (axios.isAxiosError(error) && error.response?.status === 401 && !isLoginRequest) {
-            clearToken();
+            authStorage.clear();
             window.location.assign("/login");
         }
         return Promise.reject(error);

@@ -1,16 +1,25 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Input, Button, message } from 'antd';
 import type { FormProps } from 'antd';
 
 import type { LoginFormData } from "../types/auth.types";
 import { loginUser } from "../services/auth.service";
+import { useAuth } from "../auth/useAuth";
+
+type LoginRedirectState = {
+    from?: {
+        pathname?: string;
+    };
+};
 
 export default function LoginPage() {
 
     const [form] = Form.useForm<LoginFormData>();
     const navigate = useNavigate();
+    const location = useLocation();
+    const { login } = useAuth();
     const [submitting, setSubmitting] = useState(false);
 
     const handleServerError = (error: unknown) => {
@@ -53,9 +62,16 @@ export default function LoginPage() {
                 return;
             }
 
+            if (!response.data?.token || !response.data.user) {
+                message.error("Login response is missing the token or user.");
+                return;
+            }
+
+            login(response.data.token, response.data.user);
             form.resetFields();
             message.success("Login successful!");
-            navigate("/dashboard");
+            const redirectState = location.state as LoginRedirectState | null;
+            navigate(redirectState?.from?.pathname ?? "/dashboard", { replace: true });
 
         } catch (error) {
             handleServerError(error);

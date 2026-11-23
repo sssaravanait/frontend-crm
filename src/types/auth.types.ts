@@ -8,7 +8,10 @@ export interface RegisterFormData {
 
 export interface RegisterResponse {
     success: boolean;
-    data?: AuthUser;
+    data?: {
+        token: string;
+        user: AuthUser;
+    };
     error?: {
         code: string;
         message: string;
@@ -22,7 +25,10 @@ export interface LoginFormData {
 
 export interface LoginResponse {
     success: boolean;
-    data?: AuthUser;
+    data?: {
+        token: string;
+        user: AuthUser;
+    };
     error?: {
         code: string;
         message: string;

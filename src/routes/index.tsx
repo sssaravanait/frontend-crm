@@ -8,6 +8,8 @@ import AppLayout from "../components/layout/AppLayout";
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const RegisterPage = lazy(() => import("../pages/RegisterPage"));
 const DashboardPage = lazy(() => import("../pages/DashboardPage"));
+const CustomersPage = lazy(() => import("../pages/CustomersPage"));
+const SettingsPage = lazy(() => import("../pages/SettingsPage"));
 
 const router = createBrowserRouter([
     // Public, guest-only routes 
@@ -25,7 +27,11 @@ const router = createBrowserRouter([
         children: [
             { 
                 element: <AppLayout />,
-                children: [{ path: '/dashboard', element: <DashboardPage /> }],
+                children: [
+                    { path: '/dashboard', element: <DashboardPage /> },
+                    { path: '/customers', element: <CustomersPage /> },
+                    { path: '/settings', element: <SettingsPage /> },
+                ],
             }
         ],
     },
