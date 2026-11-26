@@ -9,6 +9,7 @@ const LoginPage = lazy(() => import("../pages/LoginPage"));
 const RegisterPage = lazy(() => import("../pages/RegisterPage"));
 const DashboardPage = lazy(() => import("../pages/DashboardPage"));
 const CustomersPage = lazy(() => import("../pages/CustomersPage"));
+const CustomerFormPage = lazy(() => import("../pages/CustomerFormPage"));
 const SettingsPage = lazy(() => import("../pages/SettingsPage"));
 
 const router = createBrowserRouter([
@@ -30,6 +31,9 @@ const router = createBrowserRouter([
                 children: [
                     { path: '/dashboard', element: <DashboardPage /> },
                     { path: '/customers', element: <CustomersPage /> },
+                    { path: '/customers/new', element: <CustomerFormPage /> },
+                    // CustomerFormPage reads :id — one component covers create and edit
+                    { path: '/customers/:id/edit', element: <CustomerFormPage /> },
                     { path: '/settings', element: <SettingsPage /> },
                 ],
             }
