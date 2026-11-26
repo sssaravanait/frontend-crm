@@ -5,16 +5,7 @@ export const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4000/api",
     timeout: 5000,
     headers: { "Content-Type": "application/json" },
-});
-
-
-// Attach the JWT to every request
-apiClient.interceptors.request.use((config) => {
-    const token = authStorage.load()?.token;
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+    withCredentials: true,
 });
 
 // Expired or invalid token: clear the session and return to login
