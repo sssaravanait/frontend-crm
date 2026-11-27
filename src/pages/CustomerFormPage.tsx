@@ -128,7 +128,7 @@ export default function CustomerFormPage() {
     }
 
     return (
-        <div className="mx-auto max-w-2xl">
+        <div className="mx-auto w-full">
             <div className="mb-4 flex items-center gap-3">
                 <Link to="/customers">
                     <Button icon={<ArrowLeftOutlined />} aria-label="Back to customers" />
@@ -151,28 +151,30 @@ export default function CustomerFormPage() {
                     autoComplete="off"
                     scrollToFirstError
                 >
-                    <Form.Item<CustomerFormData>
-                        label="Name"
-                        name="name"
-                        rules={[
-                            { required: true, message: "Name is required" },
-                            { whitespace: true, message: "Name cannot be blank" },
-                            { max: MAX_LENGTHS.name, message: `Name must be at most ${MAX_LENGTHS.name} characters` },
-                        ]}
-                    >
-                        <Input placeholder="Acme Corp contact" />
-                    </Form.Item>
+                    <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+                        <Form.Item<CustomerFormData>
+                            label="Name"
+                            name="name"
+                            rules={[
+                                { required: true, message: "Name is required" },
+                                { whitespace: true, message: "Name cannot be blank" },
+                                { max: MAX_LENGTHS.name, message: `Name must be at most ${MAX_LENGTHS.name} characters` },
+                            ]}
+                        >
+                            <Input placeholder="Acme Corp contact" />
+                        </Form.Item>
 
-                    <Form.Item<CustomerFormData>
-                        label="Email"
-                        name="email"
-                        rules={[
-                            { required: true, message: "Email is required" },
-                            { type: "email", message: "Enter a valid email" },
-                        ]}
-                    >
-                        <Input placeholder="you@example.com" />
-                    </Form.Item>
+                        <Form.Item<CustomerFormData>
+                            label="Email"
+                            name="email"
+                            rules={[
+                                { required: true, message: "Email is required" },
+                                { type: "email", message: "Enter a valid email" },
+                            ]}
+                        >
+                            <Input placeholder="you@example.com" />
+                        </Form.Item>
+                    </div>
 
                     <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
                         <Form.Item<CustomerFormData>

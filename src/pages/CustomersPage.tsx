@@ -161,10 +161,10 @@ export default function CustomersPage() {
             key: "actions",
             render: (_, record) => (
                 <Space>
-                    <Button size="small" onClick={() => navigate(`/customers/${record.id}/edit`)}>
+                    <Button size="small" color="primary" variant="solid" onClick={() => navigate(`/customers/${record.id}/edit`)}>
                         Edit
                     </Button>
-                    <Button size="small" danger onClick={() => setDeleteTarget(record)}>
+                    <Button size="small" color="danger" variant="solid" onClick={() => setDeleteTarget(record)}>
                         Delete
                     </Button>
                 </Space>
@@ -187,7 +187,7 @@ export default function CustomersPage() {
                         aria-label="Search customers"
                     />
                     <Link to="/customers/new">
-                        <Button type="primary" icon={<PlusOutlined />}>New Customer</Button>
+                        <Button color="purple" variant="solid" icon={<PlusOutlined />}>New Customer</Button>
                     </Link>
                 </Space>
             </div>
@@ -206,7 +206,7 @@ export default function CustomersPage() {
                         pageSize: params.pageSize,
                         total,
                         showSizeChanger: true,
-                        showTotal: (t) => `${t} customer${t === 1 ? "" : "s"}`,
+                        showTotal: (t) => `${t} Customer${t === 1 ? "" : "s"}`,
                         onChange: goToPage,
                     }}
                 />
